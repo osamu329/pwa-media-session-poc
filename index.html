@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Media Session Event Logger</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a1a2e">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    h1 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      color: #e94560;
+    }
+    .section {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .section h2 {
+      font-size: 0.9rem;
+      color: #0f3460;
+      background: #e94560;
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .player-controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    button {
+      background: #0f3460;
+      color: #eee;
+      border: 1px solid #e94560;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:active, button:hover {
+      background: #e94560;
+    }
+    button.playing {
+      background: #e94560;
+    }
+    .status {
+      font-size: 0.85rem;
+      color: #aaa;
+      margin-top: 8px;
+    }
+    .metadata-form {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 6px 8px;
+      align-items: center;
+      margin-top: 12px;
+    }
+    .metadata-form label {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    .metadata-form input {
+      background: #0f3460;
+      border: 1px solid #333;
+      color: #eee;
+      padding: 6px 8px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+    }
+    #log-container {
+      max-height: 50vh;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      line-height: 1.6;
+      background: #0d1b2a;
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .log-entry {
+      border-bottom: 1px solid #1a1a2e;
+      padding: 4px 0;
+      word-break: break-all;
+    }
+    .log-entry .time {
+      color: #666;
+    }
+    .log-entry .action {
+      color: #e94560;
+      font-weight: bold;
+    }
+    .log-entry .detail {
+      color: #aaa;
+    }
+    .log-toolbar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .log-toolbar button {
+      font-size: 0.8rem;
+      padding: 6px 12px;
+    }
+    .badge {
+      display: inline-block;
+      background: #e94560;
+      color: #fff;
+      border-radius: 10px;
+      padding: 1px 8px;
+      font-size: 0.7rem;
+      margin-left: 8px;
+    }
+    .handler-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .handler-tag {
+      font-size: 0.7rem;
+      background: #0f3460;
+      border: 1px solid #333;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #aaa;
+    }
+    .handler-tag.active {
+      border-color: #e94560;
+      color: #e94560;
+    }
+  </style>
+</head>
+<body>
+  <h1>Media Session Event Logger</h1>
+
+  <div class="section">
+    <h2>Player</h2>
+    <div class="player-controls">
+      <button id="btn-play">▶ Play</button>
+      <button id="btn-pause">⏸ Pause</button>
+      <button id="btn-stop">⏹ Stop</button>
+    </div>
+    <div class="status" id="player-status">Status: idle</div>
+
+    <div class="metadata-form">
+      <label>Title</label>
+      <input id="meta-title" value="Test Track">
+      <label>Artist</label>
+      <input id="meta-artist" value="PWA Logger">
+      <label>Album</label>
+      <input id="meta-album" value="Steering Test">
+    </div>
+    <div class="player-controls" style="margin-top: 8px;">
+      <button id="btn-update-meta">Update Metadata</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Registered Handlers</h2>
+    <div class="handler-list" id="handler-list"></div>
+  </div>
+
+  <div class="section">
+    <h2>Event Log <span class="badge" id="log-count">0</span></h2>
+    <div class="log-toolbar">
+      <button id="btn-copy">Copy Log</button>
+      <button id="btn-clear">Clear</button>
+    </div>
+    <div id="log-container"></div>
+  </div>
+
+  <audio id="audio" loop preload="auto"></audio>
+
+  <script src="app.js"></script>
+</body>
+</html>

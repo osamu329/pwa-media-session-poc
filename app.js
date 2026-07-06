@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const BUILD_TIME = '2026-07-06T02:45+09:00';
+  const BUILD_TIME = '2026-07-06T02:48+09:00';
 
   document.getElementById('build-info').textContent = 'Build: ' + BUILD_TIME;
 
@@ -155,6 +155,7 @@
   });
   audio.addEventListener('play', updateToggleButton);
   audio.addEventListener('pause', updateToggleButton);
+  document.getElementById('btn-pause').addEventListener('click', pause);
 
   // Media Session metadata
   function updateMetadata() {

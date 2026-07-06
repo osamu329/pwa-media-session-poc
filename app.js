@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const BUILD_TIME = '2026-07-06T02:40+09:00';
+  const BUILD_TIME = '2026-07-06T02:45+09:00';
 
   document.getElementById('build-info').textContent = 'Build: ' + BUILD_TIME;
 
@@ -136,9 +136,25 @@
     updateMediaSessionState('none');
   }
 
-  document.getElementById('btn-play').addEventListener('click', play);
-  document.getElementById('btn-pause').addEventListener('click', pause);
-  document.getElementById('btn-stop').addEventListener('click', stop);
+  var toggleBtn = document.getElementById('btn-toggle');
+  function updateToggleButton() {
+    if (audio.paused) {
+      toggleBtn.textContent = '▶ Play';
+      toggleBtn.classList.remove('playing');
+    } else {
+      toggleBtn.textContent = '⏹ Stop';
+      toggleBtn.classList.add('playing');
+    }
+  }
+  toggleBtn.addEventListener('click', function () {
+    if (audio.paused) {
+      play();
+    } else {
+      stop();
+    }
+  });
+  audio.addEventListener('play', updateToggleButton);
+  audio.addEventListener('pause', updateToggleButton);
 
   // Media Session metadata
   function updateMetadata() {

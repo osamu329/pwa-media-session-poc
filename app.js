@@ -1,6 +1,10 @@
 (function () {
   'use strict';
 
+  const BUILD_TIME = '2026-07-06T02:30+09:00';
+
+  document.getElementById('build-info').textContent = 'Build: ' + BUILD_TIME;
+
   const audio = document.getElementById('audio');
   const logContainer = document.getElementById('log-container');
   const logCountBadge = document.getElementById('log-count');

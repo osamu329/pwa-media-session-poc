@@ -2,11 +2,14 @@
 
 車のステアリングコントロールから PWA の Media Session API 経由で受け取れるイベントを確認するためのアプリ。
 
-## Deploy
+## Deploy (Cloudflare Pages)
 
-[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/osamu329/pwa-media-session-poc)
+1. [Cloudflare Dashboard](https://dash.cloudflare.com/) → Workers & Pages → Create → Pages → Connect to Git
+2. リポジトリ `osamu329/pwa-media-session-poc` を選択
+3. ビルド設定はすべて空のまま（静的サイト）、出力ディレクトリに `/` を指定
+4. 「Save and Deploy」
 
-## 手動デプロイ
+CLIからデプロイする場合:
 
 ```bash
 npx wrangler pages deploy . --project-name=pwa-media-session-poc

@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  const BUILD_TIME = '2026-07-06T02:30+09:00';
+  const BUILD_TIME = '2026-07-06T02:35+09:00';
 
   document.getElementById('build-info').textContent = 'Build: ' + BUILD_TIME;
 
@@ -72,6 +72,13 @@
     const div = document.createElement('div');
     div.className = 'log-entry';
     div.innerHTML = `<span class="time">${entry.time}</span> <span class="action">[${entry.action}]</span> <span class="detail">${entry.detail}</span>`;
+    const lineText = `${entry.time} [${entry.action}] ${entry.detail}`;
+    div.addEventListener('click', function () {
+      navigator.clipboard.writeText(lineText).then(function () {
+        div.classList.add('copied');
+        setTimeout(function () { div.classList.remove('copied'); }, 500);
+      });
+    });
     logContainer.appendChild(div);
     logContainer.scrollTop = logContainer.scrollHeight;
   }

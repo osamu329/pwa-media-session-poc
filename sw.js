@@ -1,4 +1,4 @@
-const CACHE_NAME = 'media-session-logger-v2';
+const CACHE_NAME = 'media-session-logger-v3';
 const ASSETS = [
   '/',
   '/index.html',
